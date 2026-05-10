@@ -4,6 +4,8 @@ Backend REST inspirado no app **Treviqo**: **viagens** (`Trip`), **despesas** (`
 
 Projeto acadêmico em **Kotlin**, **Spring Boot 4.0.5** e **Java 21**, com **Gradle** (Kotlin DSL).
 
+Aluna: Jasmini Rebecca Gomes dos Santos
+
 ## Requisitos
 
 - **JDK 21** no `PATH` (`java -version`)
