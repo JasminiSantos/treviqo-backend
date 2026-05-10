@@ -6,6 +6,8 @@ Projeto acadêmico em **Kotlin**, **Spring Boot 4.0.5** e **Java 21**, com **Gra
 
 Aluna: Jasmini Rebecca Gomes dos Santos
 
+Link Vídeo Apresentação: https://youtu.be/o9EsnM8AFl0
+
 ## Requisitos
 
 - **JDK 21** no `PATH` (`java -version`)
