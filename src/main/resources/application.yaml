@@ -23,6 +23,4 @@ springdoc:
     disabled: true
   swagger-ui:
     path: /swagger-ui.html
-    # Sem isso, o bundle do Swagger UI guarda `url: petstore...` e pode ignorar o `/v3/api-docs`
-    # (com Info/security do OpenApiConfig.kt).
     disable-swagger-default-url: true
