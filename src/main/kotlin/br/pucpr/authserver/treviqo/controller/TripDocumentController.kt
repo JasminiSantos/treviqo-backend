@@ -35,7 +35,7 @@ class TripDocumentController(
 	): DocumentResponse = tripDocumentService.getById(tripId, documentId)
 
 	@PostMapping
-	@SecurityRequirement(name = "basicAuth")
+	@SecurityRequirement(name = "bearerJwt")
 	fun create(
 		@PathVariable tripId: Long,
 		@Valid @RequestBody req: DocumentCreateRequest,
@@ -43,7 +43,7 @@ class TripDocumentController(
 		ResponseEntity.status(HttpStatus.CREATED).body(tripDocumentService.create(tripId, req))
 
 	@PutMapping("/{documentId}")
-	@SecurityRequirement(name = "basicAuth")
+	@SecurityRequirement(name = "bearerJwt")
 	fun update(
 		@PathVariable tripId: Long,
 		@PathVariable documentId: Long,
@@ -52,7 +52,7 @@ class TripDocumentController(
 
 	@DeleteMapping("/{documentId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@SecurityRequirement(name = "basicAuth")
+	@SecurityRequirement(name = "bearerJwt")
 	fun delete(
 		@PathVariable tripId: Long,
 		@PathVariable documentId: Long,

@@ -35,7 +35,7 @@ class TripExpenseController(
 	): ExpenseResponse = expenseService.getById(tripId, expenseId)
 
 	@PostMapping
-	@SecurityRequirement(name = "basicAuth")
+	@SecurityRequirement(name = "bearerJwt")
 	fun create(
 		@PathVariable tripId: Long,
 		@Valid @RequestBody req: AddExpenseRequest,
@@ -43,7 +43,7 @@ class TripExpenseController(
 		ResponseEntity.status(HttpStatus.CREATED).body(expenseService.addExpense(tripId, req))
 
 	@PutMapping("/{expenseId}")
-	@SecurityRequirement(name = "basicAuth")
+	@SecurityRequirement(name = "bearerJwt")
 	fun update(
 		@PathVariable tripId: Long,
 		@PathVariable expenseId: Long,
@@ -51,7 +51,7 @@ class TripExpenseController(
 	): TripResponse = expenseService.updateExpense(tripId, expenseId, req)
 
 	@DeleteMapping("/{expenseId}")
-	@SecurityRequirement(name = "basicAuth")
+	@SecurityRequirement(name = "bearerJwt")
 	fun delete(
 		@PathVariable tripId: Long,
 		@PathVariable expenseId: Long,

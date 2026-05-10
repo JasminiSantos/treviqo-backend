@@ -27,6 +27,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2")
 	implementation("tools.jackson.module:jackson-module-kotlin")
+	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
@@ -45,4 +48,12 @@ kotlin {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	testLogging {
+		events(
+			org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
+			org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED,
+			org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
+		)
+		showStandardStreams = false
+	}
 }

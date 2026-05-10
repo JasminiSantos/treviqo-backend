@@ -14,6 +14,11 @@ spring:
       hibernate:
         format_sql: true
 
+app:
+  jwt:
+    secret: "dev-secret-change-me-32bytes-min!!"
+    expiration-ms: 86400000
+
 logging:
   level:
     br.pucpr.authserver.treviqo: INFO

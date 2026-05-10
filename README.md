@@ -30,7 +30,8 @@ java -jar build/libs/authserver-0.0.1-SNAPSHOT.jar
 | Spring Web MVC | REST |
 | Spring Data JPA | Persistência |
 | H2 (em memória) | Banco; dados reiniciados a cada execução (`ddl-auto: create-drop`) |
-| Spring Security | HTTP Basic em **POST** / **PUT** / **DELETE** |
+| Spring Security + JWT | Login em `/api/auth/login`; **Bearer token** em **POST** / **PUT** / **DELETE** |
+| jjwt | Assinatura HS256 do JWT |
 | SpringDoc OpenAPI | Swagger UI |
 | Jakarta Validation | Validação de DTOs |
 
@@ -43,7 +44,11 @@ Com o servidor em execução:
 | Swagger UI | http://localhost:8080/swagger-ui.html |
 | OpenAPI (JSON) | http://localhost:8080/v3/api-docs |
 
-No Swagger, use **Authorize** com `admin` / `admin` antes de **POST**, **PUT** ou **DELETE**.
+1. Chame **`POST /api/auth/login`** com corpo `{"username":"admin","password":"admin"}` e copie o `accessToken`.  
+2. Em **Authorize** (Swagger), escolha **bearerJwt** e cole só o token (o Swagger envia `Authorization: Bearer …`).  
+3. Use **POST**, **PUT** e **DELETE** nas rotas protegidas.
+
+**CORS:** liberado para desenvolvimento (`allowedOriginPatterns: *`, métodos e headers usuais). Ajuste em produção.
 
 ---
 
@@ -51,7 +56,16 @@ No Swagger, use **Authorize** com `admin` / `admin` antes de **POST**, **PUT** o
 
 **Base:** `/api/trips`
 
-**Legenda:** *Público* = sem credenciais. *Autenticado* = HTTP Basic (`admin` / `admin`).
+**Legenda:** *Público* = sem token. *Autenticado* = header `Authorization: Bearer <accessToken>` (obtido no login).
+
+### Autenticação
+
+| Método | Caminho | Acesso |
+|--------|---------|--------|
+| `POST` | `/api/auth/login` | Público — corpo `LoginRequest` (`username`, `password`); resposta `LoginResponse` com `accessToken`, `tokenType`, `expiresIn` |
+
+---
+
 
 ### Viagens (`Trip`)
 
@@ -121,11 +135,12 @@ Em **`GET /api/trips`**, os arrays `expenses`, `destinations` e `documents` vêm
 ./gradlew test
 ```
 
-Inclui testes unitários dos serviços (`TripService`, `ExpenseService`) e regras de mapeamento/validação (`TripMapperTest`), além do carregamento de contexto Spring.
+Inclui testes unitários dos serviços (`TripService`, `ExpenseService`), regras de mapeamento/validação (`TripMapperTest`), **JWT** (`JwtTokenProviderTest`, `JwtAuthenticationFilterTest`, `AuthControllerTest`) e o carregamento de contexto Spring.
 
 ## Estrutura de pacotes (principal)
 
 - `br.pucpr.authserver.treviqo` — domínio, repositórios, serviços, controller e carga inicial de exemplo  
-- `br.pucpr.authserver.security` — configuração de segurança  
+- `br.pucpr.authserver.security` — `SecurityConfig`, CORS, `JwtTokenProvider`, `JwtAuthenticationFilter`  
+- `br.pucpr.authserver.auth` — `AuthController` e DTOs de login  
 - `br.pucpr.authserver.exception` — exceções e `ApiExceptionHandler`  
 - `br.pucpr.authserver.config` — OpenAPI (`OpenApiConfig`)

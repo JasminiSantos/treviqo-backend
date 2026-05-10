@@ -35,7 +35,7 @@ class TripDestinationController(
 	): DestinationResponse = destinationService.getById(tripId, destinationId)
 
 	@PostMapping
-	@SecurityRequirement(name = "basicAuth")
+	@SecurityRequirement(name = "bearerJwt")
 	fun create(
 		@PathVariable tripId: Long,
 		@Valid @RequestBody req: DestinationCreateRequest,
@@ -43,7 +43,7 @@ class TripDestinationController(
 		ResponseEntity.status(HttpStatus.CREATED).body(destinationService.create(tripId, req))
 
 	@PutMapping("/{destinationId}")
-	@SecurityRequirement(name = "basicAuth")
+	@SecurityRequirement(name = "bearerJwt")
 	fun update(
 		@PathVariable tripId: Long,
 		@PathVariable destinationId: Long,
@@ -52,7 +52,7 @@ class TripDestinationController(
 
 	@DeleteMapping("/{destinationId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@SecurityRequirement(name = "basicAuth")
+	@SecurityRequirement(name = "bearerJwt")
 	fun delete(
 		@PathVariable tripId: Long,
 		@PathVariable destinationId: Long,

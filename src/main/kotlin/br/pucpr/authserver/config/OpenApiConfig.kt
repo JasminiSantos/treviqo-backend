@@ -24,17 +24,21 @@ class OpenApiConfig {
 							"Tipos de documento (`DocumentType`): Ticket, Hotel, Reservation, Insurance, Visa, Other.\n\n",
 						)
 						append(
-							"Basic Auth **admin**/**admin** para criar, alterar ou excluir viagem, despesa, destino ou documento (POST/PUT/DELETE).",
+							"**Login:** `POST /api/auth/login` com username e password, com resposta que traz `accessToken`.\n\n",
+						)
+						append(
+							"**API protegida:** envie `Authorization: Bearer token` nas operações POST/PUT/DELETE de viagens e recursos aninhados.",
 						)
 					},
 				)
 		)
 		.components(
 			Components().addSecuritySchemes(
-				"basicAuth",
+				"bearerJwt",
 				SecurityScheme()
 					.type(SecurityScheme.Type.HTTP)
-					.scheme("basic"),
+					.scheme("bearer")
+					.bearerFormat("JWT"),
 			),
 		)
 }
